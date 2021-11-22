@@ -92,6 +92,7 @@ func printBigChar(chMap *map[byte][]string, inpBSlice []byte) {
 }
 
 func AsciiArt(s string) {
+	
 	// if len(os.Args) != 2 {
 	// 	fmt.Println("Arg amount is not right")
 	// }
@@ -149,10 +150,15 @@ func AsciiArt(s string) {
 			}
 
 			charMap[inputBSlice[inp]] = bigChar
+
 		}
+
 		// }
-		printBigChar2(&charMap, inputBSlice)
+	printBigChar2(&charMap, inputBSlice)
+		
 	}
+
+	
 }
 
 func AsciiArt2(s string) {
@@ -198,16 +204,21 @@ func AsciiArt2(s string) {
 			charMap[inputBSlice[inp]] = bigChar
 		}
 		// }
-		printBigChar(&charMap, inputBSlice)
+		 printBigChar(&charMap, inputBSlice)
 	}
 }
 
-func printBigChar2(chMap *map[byte][]string, inpBSlice []byte) {
+func printBigChar2(chMap *map[byte][]string, inpBSlice []byte)  {
+	chline2 := ""
 	for l := 0; l < 8; l++ {
 		chLine := ""
 		for ch := 0; ch < len(inpBSlice); ch++ {
 			chLine += string((*chMap)[inpBSlice[ch]][l])
-			fmt.Println(chLine)
+			chline2 = chLine
+			fmt.Println(chline2)
+
 		}
 	}
+
+	
 }
