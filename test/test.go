@@ -2,6 +2,7 @@ package main
 
 import (
 	"asciiart"
+	"bytes"
 	"fmt"
 	"os"
 	"strconv"
@@ -30,7 +31,7 @@ func foundspace(s string) int {
 	return space
 }
 
-// var b bytes.Buffer
+var b bytes.Buffer
 
 func main() {
 	spacecounter := 0
@@ -48,12 +49,14 @@ func main() {
 
 		if os.Args[4] == "first" {
 			for i := 0; i < ourNumber5; i++ {
-				// b.WriteString(asciiart.AsciiArt2(letters[i]))
+				// )
 				(asciiart.AsciiArt2(letters[i]))
 			}
 			for k := ourNumber5; k < len(os.Args[1]); k++ {
-				asciiart.AsciiArt(letters[k])
+				b.WriteString(asciiart.AsciiArt(letters[k]))
 			}
+
+			fmt.Print(b.String())
 		} else if os.Args[4] == "last" {
 			for i := 0; i < (leninput - ourNumber5); i++ {
 				asciiart.AsciiArt(letters[i])
