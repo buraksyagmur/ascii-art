@@ -31,7 +31,11 @@ func foundspace(s string) int {
 	return space
 }
 
-var b bytes.Buffer
+var (
+	b   bytes.Buffer
+	abc []string
+	a   []string
+)
 
 func main() {
 	spacecounter := 0
@@ -53,10 +57,16 @@ func main() {
 				(asciiart.AsciiArt2(letters[i]))
 			}
 			for k := ourNumber5; k < len(os.Args[1]); k++ {
-				b.WriteString(asciiart.AsciiArt(letters[k]))
+				abc = (asciiart.AsciiArt(letters[k]))
+				a = append(abc, abc...)
 			}
+			fmt.Println(a[20])
 
-			fmt.Print(b.String())
+			// fmt.Println(b.String())
+			// for m := 0; m < 16; m++ {
+			// 	fmt.Println(abcde[m])
+			// }
+
 		} else if os.Args[4] == "last" {
 			for i := 0; i < (leninput - ourNumber5); i++ {
 				asciiart.AsciiArt(letters[i])

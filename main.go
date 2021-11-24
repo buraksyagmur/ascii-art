@@ -91,11 +91,11 @@ func printBigChar(chMap *map[byte][]string, inpBSlice []byte) {
 	}
 }
 
-func AsciiArt(s string) string {
+func AsciiArt(s string) []string {
 	// if len(os.Args) != 2 {
 	// 	fmt.Println("Arg amount is not right")
 	// }
-	result2 := ""
+	var result2 []string
 	banner := os.Args[2]
 	// read input str
 	var inputStrSlices []string
@@ -154,7 +154,7 @@ func AsciiArt(s string) string {
 
 		// }
 
-		result2 += printBigChar2(&charMap, inputBSlice)
+		result2 =printBigChar2(&charMap, inputBSlice)
 
 	}
 	return result2
@@ -207,7 +207,7 @@ func AsciiArt2(s string) {
 	}
 }
 
-func printBigChar2(chMap *map[byte][]string, inpBSlice []byte) string {
+func printBigChar2(chMap *map[byte][]string, inpBSlice []byte) []string {
 	chLine := ""
 	chLine2 := ""
 	chLine3 := ""
@@ -226,8 +226,8 @@ func printBigChar2(chMap *map[byte][]string, inpBSlice []byte) string {
 	chLine7 += string((*chMap)[inpBSlice[0]][6])
 	chLine8 += string((*chMap)[inpBSlice[0]][7])
 
-	result := ""
-	result = chLine + "\n" + chLine2 + "\n" + chLine3 + "\n" + chLine4 + "\n" + chLine5 + "\n" + chLine6 + "\n" + chLine7 + "\n" + chLine8 + "\n"
+	
+	var result = []string{chLine , chLine2 ,chLine3 ,chLine4 ,chLine5,chLine6 , chLine7 , chLine8}
 
 	// fmt.Println(chLine)
 	// fmt.Println(chLine2)
@@ -237,5 +237,6 @@ func printBigChar2(chMap *map[byte][]string, inpBSlice []byte) string {
 	// fmt.Println(chLine6)
 	// fmt.Println(chLine7)
 	// fmt.Println(chLine8)
+
 	return result
 }
