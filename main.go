@@ -9,25 +9,7 @@ import (
 	"strings"
 )
 
-var (
-	Black                = Color("\033[1;30m%s\033[0m")
-	Red                  = Color("\033[1;31m%s\033[0m")
-	Green                = Color("\033[1;32m%s\033[0m")
-	Yellow               = Color("\033[1;33m%s\033[0m")
-	Blue                 = Color("\033[1;34m%s\033[0m")
-	Purple               = Color("\033[1;35m%s\033[0m")
-	Turqoise             = Color("\033[1;36m%s\033[0m")
-	White                = Color("\033[1;37m%s\033[0m")
-	numberfornewline int = 0
-)
-
-func Color(colorString string) func(...interface{}) string {
-	sprint := func(args ...interface{}) string {
-		return fmt.Sprintf(colorString,
-			fmt.Sprint(args...))
-	}
-	return sprint
-}
+var numberfornewline int
 
 func checkErr(e error) {
 	if e != nil {
@@ -63,32 +45,37 @@ func scanChar(r io.Reader, startLine int) ([]string, error) {
 	return bigCharLines, io.EOF
 }
 
-func printBigChar(chMap *map[byte][]string, inpBSlice []byte) {
-	for l := 0; l < 8; l++ {
-		chLine := ""
-		for ch := 0; ch < len(inpBSlice); ch++ {
-			chLine += string((*chMap)[inpBSlice[ch]][l])
-		}
-		res1 := strings.Split(os.Args[3], "=")
+func printBigChar(chMap *map[byte][]string, inpBSlice []byte) []string {
+	chLine := ""
+	chLine2 := ""
+	chLine3 := ""
+	chLine4 := ""
+	chLine5 := ""
+	chLine6 := ""
+	chLine7 := ""
+	chLine8 := ""
 
-		if res1[1] == "black" {
-			fmt.Println(Black(chLine))
-		} else if res1[1] == "red" {
-			fmt.Println(Red(chLine))
-		} else if res1[1] == "purple" {
-			fmt.Println(Purple(chLine))
-		} else if res1[1] == "blue" {
-			fmt.Println(Blue(chLine))
-		} else if res1[1] == "green" {
-			fmt.Println(Green(chLine))
-		} else if res1[1] == "yellow" {
-			fmt.Println(Yellow(chLine))
-		} else if res1[1] == "white" {
-			fmt.Println(White(chLine))
-		} else if res1[1] == "turqoise" {
-			fmt.Println(Turqoise(chLine))
-		}
-	}
+	chLine += string((*chMap)[inpBSlice[0]][0])
+	chLine2 += string((*chMap)[inpBSlice[0]][1])
+	chLine3 += string((*chMap)[inpBSlice[0]][2])
+	chLine4 += string((*chMap)[inpBSlice[0]][3])
+	chLine5 += string((*chMap)[inpBSlice[0]][4])
+	chLine6 += string((*chMap)[inpBSlice[0]][5])
+	chLine7 += string((*chMap)[inpBSlice[0]][6])
+	chLine8 += string((*chMap)[inpBSlice[0]][7])
+
+	result := []string{chLine, chLine2, chLine3, chLine4, chLine5, chLine6, chLine7, chLine8}
+
+	// fmt.Println(chLine)
+	// fmt.Println(chLine2)
+	// fmt.Println(chLine3)
+	// fmt.Println(chLine4)
+	// fmt.Println(chLine5)
+	// fmt.Println(chLine6)
+	// fmt.Println(chLine7)
+	// fmt.Println(chLine8)
+
+	return result
 }
 
 func AsciiArt(s string) []string {
@@ -154,16 +141,17 @@ func AsciiArt(s string) []string {
 
 		// }
 
-		result2 =printBigChar2(&charMap, inputBSlice)
+		result2 = printBigChar2(&charMap, inputBSlice)
 
 	}
 	return result2
 }
 
-func AsciiArt2(s string) {
+func AsciiArt2(s string) []string {
 	// if len(os.Args) != 2 {
 	// 	fmt.Println("Arg amount is not right")
 	// }
+	var result3 []string
 	banner := os.Args[2]
 	// read input str
 	var inputStrSlices []string
@@ -203,8 +191,10 @@ func AsciiArt2(s string) {
 			charMap[inputBSlice[inp]] = bigChar
 		}
 		// }
-		printBigChar(&charMap, inputBSlice)
+		result3 = printBigChar(&charMap, inputBSlice)
+
 	}
+	return result3
 }
 
 func printBigChar2(chMap *map[byte][]string, inpBSlice []byte) []string {
@@ -226,8 +216,7 @@ func printBigChar2(chMap *map[byte][]string, inpBSlice []byte) []string {
 	chLine7 += string((*chMap)[inpBSlice[0]][6])
 	chLine8 += string((*chMap)[inpBSlice[0]][7])
 
-	
-	var result = []string{chLine , chLine2 ,chLine3 ,chLine4 ,chLine5,chLine6 , chLine7 , chLine8}
+	result := []string{chLine, chLine2, chLine3, chLine4, chLine5, chLine6, chLine7, chLine8}
 
 	// fmt.Println(chLine)
 	// fmt.Println(chLine2)
