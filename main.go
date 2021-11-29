@@ -141,91 +141,9 @@ func AsciiArt(s string) []string {
 
 		// }
 
-		result2 = printBigChar2(&charMap, inputBSlice)
+		result2 = printBigChar(&charMap, inputBSlice)
 
 	}
 	return result2
 }
 
-func AsciiArt2(s string) []string {
-	// if len(os.Args) != 2 {
-	// 	fmt.Println("Arg amount is not right")
-	// }
-	var result3 []string
-	banner := os.Args[2]
-	// read input str
-	var inputStrSlices []string
-	// inputStr := os.Args[1]
-	// // fmt.Println("input: ", inputStr)
-
-	// case when \n at the end of the input
-
-	inputStrSlices = strings.Split(s, "\\n") // normal case
-
-	for _, inputSlice := range inputStrSlices {
-		// process the str
-		inputBSlice := []byte(inputSlice)
-		// fmt.Println(inputBSlice)
-		charMap := make(map[byte][]string)
-
-		for inp := 0; inp < len(inputBSlice); inp++ {
-			// find the corresponding line num
-			startLine := (int(inputBSlice[inp])-32)*9 + 2
-			// fmt.Println("startLine: ", startLine)
-			// scan the reqired lines in from the txt file
-			fread, err := os.Open(banner + ".txt")
-			checkErr(err)
-			defer fread.Close()
-
-			scanner := bufio.NewScanner(fread)
-
-			scanner.Split(bufio.ScanBytes)
-
-			// scan 8 lines starting from startLine from the txt file
-			bigChar, err := scanChar(fread, startLine)
-			checkErrNoEOF(err)
-			if len(bigChar) != 8 {
-				fmt.Println("Wrong number of lines read")
-			}
-
-			charMap[inputBSlice[inp]] = bigChar
-		}
-		// }
-		result3 = printBigChar(&charMap, inputBSlice)
-
-	}
-	return result3
-}
-
-func printBigChar2(chMap *map[byte][]string, inpBSlice []byte) []string {
-	chLine := ""
-	chLine2 := ""
-	chLine3 := ""
-	chLine4 := ""
-	chLine5 := ""
-	chLine6 := ""
-	chLine7 := ""
-	chLine8 := ""
-
-	chLine += string((*chMap)[inpBSlice[0]][0])
-	chLine2 += string((*chMap)[inpBSlice[0]][1])
-	chLine3 += string((*chMap)[inpBSlice[0]][2])
-	chLine4 += string((*chMap)[inpBSlice[0]][3])
-	chLine5 += string((*chMap)[inpBSlice[0]][4])
-	chLine6 += string((*chMap)[inpBSlice[0]][5])
-	chLine7 += string((*chMap)[inpBSlice[0]][6])
-	chLine8 += string((*chMap)[inpBSlice[0]][7])
-
-	result := []string{chLine, chLine2, chLine3, chLine4, chLine5, chLine6, chLine7, chLine8}
-
-	// fmt.Println(chLine)
-	// fmt.Println(chLine2)
-	// fmt.Println(chLine3)
-	// fmt.Println(chLine4)
-	// fmt.Println(chLine5)
-	// fmt.Println(chLine6)
-	// fmt.Println(chLine7)
-	// fmt.Println(chLine8)
-
-	return result
-}

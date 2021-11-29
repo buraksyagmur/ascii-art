@@ -8,6 +8,24 @@ import (
 	"strings"
 )
 
+var colormap = map[string]int{
+	"black":    0,
+	"orange":   208,
+	"red":      9,
+	"green":    10,
+	"yellow":   11,
+	"blue":     12,
+	"purple":   5,
+	"turqoise": 14,
+	"white":    15,
+	"pink":     198,
+}
+
+func printcolor(s string, color int) {
+	ansi := "\033[38;5;%dm%s\033[0m"
+	fmt.Printf(ansi, color, s)
+}
+
 func lengthwithoutspace(s string) int {
 	space := 0
 	split := strings.Split(s, "")
@@ -42,10 +60,10 @@ var (
 	orange   = Color("\033[38;5;208m%s\033[0m")
 	pink     = Color("\033[38;5;198m%s\033[0m")
 
-	abc        []string
-	abcd       []string
-	counter1   int
-	counter2   int
+	firstsecondinput []string
+	firstsecondslice []string
+	firsttempslice   []string
+
 	firstinput []string
 	firstslice []string
 
@@ -54,10 +72,11 @@ var (
 )
 
 func main() {
+	tempmap := make(map[int][]string)
 	spacecounter := 0
 	leninput := len(os.Args[1])
 	if len(os.Args) == 4 {
-		asciiart.AsciiArt2(os.Args[1])
+		asciiart.AsciiArt(os.Args[1])
 	} else if len(os.Args) == 6 {
 		letters := strings.Split(os.Args[1], "")
 		// words := strings.Split(os.Args[1], " ")
@@ -69,31 +88,47 @@ func main() {
 
 		if os.Args[4] == "first" {
 			for i := 0; i < ourNumber5; i++ {
-				firstinput = (asciiart.AsciiArt2(letters[i]))
+				firstinput = (asciiart.AsciiArt(letters[i]))
+				for j, line := range firstinput {
+					tempmap[j] = append(tempmap[j], line)
+				}
 				firstslice = append(firstslice, firstinput...)
-				counter2++
-
 			}
+			firsttempslice = firstslice
 
 			for k := ourNumber5; k < len(os.Args[1]); k++ {
-				abc = (asciiart.AsciiArt(letters[k]))
-				abcd = append(abcd, abc...)
-				counter1++
+				firstsecondinput = (asciiart.AsciiArt(letters[k]))
 
+				for j, line := range firstsecondinput {
+					tempmap[j] = append(tempmap[j], line)
+				}
+				firstsecondslice = append(firstsecondslice, firstsecondinput...)
 			}
-			printresult(abcd, counter1)
-			printcolorresult(firstslice, counter2)
-			// fmt.Println(b.String())
-			// for m := 0; m < 16; m++ {
-			// 	fmt.Println(abcde[m])
-			// }
+			firsttempslice = append(firsttempslice, firstsecondslice...)
 
+			// s := printresult(firsttempslice, ourNumber5)
+			// printcolor(s, colormap[clr[1]])
+			// fmt.Println(red(printresult(firstslice, ourNumber5)) + printresult(firstsecondslice, (len(os.Args[1])-ourNumber5)))
+
+			// fmt.Print(printresult(firsttempslice, (len(os.Args[1]) - ourNumber5)))
+
+			for k := 0; k < 8; k++ {
+				for m := 0; m < ourNumber5; m++ {
+					printcolor(tempmap[k][m], colormap[clr[1]])
+					// fmt.Print(tempmap[k][m])
+				}
+				for j := ourNumber5; j < (len(os.Args) - 1); j++ {
+					fmt.Print(tempmap[k][j])
+				}
+
+				fmt.Println()
+			}
 		} else if os.Args[4] == "last" {
 			for i := 0; i < (leninput - ourNumber5); i++ {
 				asciiart.AsciiArt(letters[i])
 			}
 			for k := (leninput - ourNumber5); k < len(os.Args[1]); k++ {
-				asciiart.AsciiArt2(letters[k])
+				asciiart.AsciiArt(letters[k])
 			}
 		}
 	} else if len(os.Args) == 7 {
@@ -110,13 +145,13 @@ func main() {
 		}
 		if os.Args[5] == "-" {
 			if ourNumber6 == lengthwithoutspace(os.Args[1]) && ourNumber4 == 1 {
-				asciiart.AsciiArt2(os.Args[1])
+				asciiart.AsciiArt(os.Args[1])
 			} else {
 				for i := 0; i < (ourNumber4 - 1); i++ {
 					asciiart.AsciiArt(letters[i])
 				}
 				for k := ourNumber4 - 1; k < ourNumber6; k++ {
-					asciiart.AsciiArt2(letters[k])
+					asciiart.AsciiArt(letters[k])
 					if letters[k] == " " {
 						spacecounter++
 					}
@@ -124,7 +159,7 @@ func main() {
 				}
 				if spacecounter > 0 {
 					for i := 0; i < spacecounter; i++ {
-						asciiart.AsciiArt2(letters[ourNumber6+i])
+						asciiart.AsciiArt(letters[ourNumber6+i])
 					}
 					if spacecounter > 0 {
 						for m := ourNumber6 + spacecounter; m < (len(os.Args[1])); m++ {
@@ -139,17 +174,17 @@ func main() {
 			}
 		} else if os.Args[5] == "and" {
 			if ourNumber6 == lengthwithoutspace(os.Args[1]) && ourNumber4 == 1 {
-				asciiart.AsciiArt2(os.Args[1])
+				asciiart.AsciiArt(os.Args[1])
 			} else {
 				for i := 0; i < (ourNumber4 - 1); i++ {
 					asciiart.AsciiArt(letters[i])
 				}
-				asciiart.AsciiArt2(letters[ourNumber4-1])
+				asciiart.AsciiArt(letters[ourNumber4-1])
 
 				for m := ourNumber4; m < ourNumber6-1; m++ {
 					asciiart.AsciiArt(letters[m])
 				}
-				asciiart.AsciiArt2(letters[ourNumber6-1])
+				asciiart.AsciiArt(letters[ourNumber6-1])
 				for k := ourNumber6; k < len(os.Args[1]); k++ {
 					asciiart.AsciiArt(letters[k])
 				}
@@ -165,46 +200,57 @@ func main() {
 		for i := 0; i < (ourNumber - 1); i++ {
 			asciiart.AsciiArt(letters[i])
 		}
-		asciiart.AsciiArt2(letters[ourNumber-1])
+		asciiart.AsciiArt(letters[ourNumber-1])
 		for m := ourNumber; m < len(os.Args); m++ {
 			asciiart.AsciiArt(letters[m])
 		}
 	}
 }
 
-func printresult(a []string, counter int) {
+func printresult(a []string, counter int) string {
+	str := ""
+	str2 := ""
+	str3 := ""
+	str4 := ""
+	str5 := ""
+	str6 := ""
+	str7 := ""
+	str8 := ""
 	for j := 0; j <= ((counter * 8) - 1); j += 8 {
-		fmt.Print(a[j])
+		str += a[j]
 	}
-	fmt.Println(" ")
+
 	for j := 1; j <= ((counter * 8) - 1); j += 8 {
-		fmt.Print(a[j])
+		str2 += a[j]
 	}
-	fmt.Println(" ")
+
 	for j := 2; j <= ((counter * 8) - 1); j += 8 {
-		fmt.Print(a[j])
+		str3 += a[j]
 	}
-	fmt.Println(" ")
+
 	for j := 3; j <= ((counter * 8) - 1); j += 8 {
-		fmt.Print(a[j])
+		str4 += a[j]
 	}
-	fmt.Println(" ")
+
 	for j := 4; j <= ((counter * 8) - 1); j += 8 {
-		fmt.Print(a[j])
+		str5 += a[j]
 	}
-	fmt.Println(" ")
+
 	for j := 5; j <= ((counter * 8) - 1); j += 8 {
-		fmt.Print(a[j])
+		str6 += a[j]
 	}
-	fmt.Println(" ")
+
 	for j := 6; j <= ((counter * 8) - 1); j += 8 {
-		fmt.Print(a[j])
+		str7 += a[j]
 	}
-	fmt.Println(" ")
+
 	for j := 7; j <= ((counter * 8) - 1); j += 8 {
-		fmt.Print(a[j])
+		str8 += a[j]
 	}
-	fmt.Println(" ")
+
+	allstr := (str + "\n" + str2 + "\n" + str3 + "\n" + str4 + "\n" + str5 + "\n" + str6 + "\n" + str7 + "\n" + str8 + "\n")
+
+	return allstr
 }
 
 func Color(colorString string) func(...interface{}) string {
@@ -213,329 +259,4 @@ func Color(colorString string) func(...interface{}) string {
 			fmt.Sprint(args...))
 	}
 	return sprint
-}
-
-func printcolorresult(a []string, counter int) {
-	if clr[1] == "red" {
-		for j := 0; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(red(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 1; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(red(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 2; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(red(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 3; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(red(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 4; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(red(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 5; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(red(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 6; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(red(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 7; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(red(a[j]))
-			fmt.Println(" ")
-		}
-	} else if clr[1] == "black" {
-		for j := 0; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(black(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 1; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(black(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 2; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(black(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 3; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(black(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 4; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(black(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 5; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(black(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 6; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(black(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 7; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(black(a[j]))
-		}
-	} else if clr[1] == "green" {
-		for j := 0; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(green(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 1; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(green(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 2; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(green(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 3; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(green(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 4; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(green(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 5; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(green(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 6; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(green(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 7; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(green(a[j]))
-		}
-	} else if clr[1] == "yellow" {
-		for j := 0; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(yellow(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 1; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(yellow(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 2; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(yellow(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 3; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(yellow(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 4; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(yellow(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 5; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(yellow(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 6; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(yellow(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 7; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(yellow(a[j]))
-		}
-	} else if clr[1] == "blue" {
-		for j := 0; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(blue(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 1; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(blue(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 2; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(blue(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 3; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(blue(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 4; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(blue(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 5; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(blue(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 6; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(blue(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 7; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(blue(a[j]))
-		}
-	} else if clr[1] == "purple" {
-		for j := 0; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(purple(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 1; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(purple(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 2; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(purple(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 3; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(purple(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 4; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(purple(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 5; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(purple(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 6; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(purple(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 7; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(purple(a[j]))
-		}
-	} else if clr[1] == "turqoise" {
-		for j := 0; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(turqoise(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 1; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(turqoise(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 2; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(turqoise(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 3; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(turqoise(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 4; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(turqoise(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 5; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(turqoise(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 6; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(turqoise(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 7; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(turqoise(a[j]))
-		}
-	} else if clr[1] == "white" {
-		for j := 0; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(white(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 1; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(white(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 2; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(white(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 3; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(white(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 4; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(white(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 5; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(white(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 6; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(white(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 7; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(white(a[j]))
-		}
-	} else if clr[1] == "pink" {
-		for j := 0; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(pink(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 1; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(pink(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 2; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(pink(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 3; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(pink(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 4; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(pink(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 5; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(pink(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 6; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(pink(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 7; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(pink(a[j]))
-		}
-	} else if clr[1] == "orange" {
-		for j := 0; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(orange(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 1; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(orange(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 2; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(orange(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 3; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(orange(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 4; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(orange(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 5; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(orange(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 6; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(orange(a[j]))
-		}
-		fmt.Println(" ")
-		for j := 7; j <= ((counter * 8) - 1); j += 8 {
-			fmt.Print(orange(a[j]))
-		}
-	}
 }
