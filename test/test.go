@@ -49,31 +49,20 @@ func foundspace(s string) int {
 }
 
 var (
-	black    = Color("\033[1;30m%s\033[0m")
-	red      = Color("\033[38;5;196m%s\033[0m")
-	green    = Color("\033[1;32m%s\033[0m")
-	yellow   = Color("\033[1;33m%s\033[0m")
-	blue     = Color("\033[1;34m%s\033[0m")
-	purple   = Color("\033[1;35m%s\033[0m")
-	turqoise = Color("\033[1;36m%s\033[0m")
-	white    = Color("\033[1;37m%s\033[0m")
-	orange   = Color("\033[38;5;208m%s\033[0m")
-	pink     = Color("\033[38;5;198m%s\033[0m")
-
-	firstsecondinput []string
-	firstsecondslice []string
-	firsttempslice   []string
-
-	firstinput []string
-	firstslice []string
-
-	clr = strings.Split(os.Args[3], "=")
+	firstinput  []string
+	secondinput []string
+	thirdinput  []string
+	clr         = strings.Split(os.Args[3], "=")
 	// s   = SelectedColor(clr[1])
 )
 
 func main() {
 	tempmap := make(map[int][]string)
 	spacecounter := 0
+	secondcounter := 0
+	thirdcounter := 0
+	_ = secondcounter
+	_ = thirdcounter
 	leninput := len(os.Args[1])
 	if len(os.Args) == 4 {
 		asciiart.AsciiArt(os.Args[1])
@@ -85,52 +74,108 @@ func main() {
 			fmt.Println(err)
 			os.Exit(2)
 		}
-
 		if os.Args[4] == "first" {
 			for i := 0; i < ourNumber5; i++ {
 				firstinput = (asciiart.AsciiArt(letters[i]))
 				for j, line := range firstinput {
 					tempmap[j] = append(tempmap[j], line)
 				}
-				firstslice = append(firstslice, firstinput...)
 			}
-			firsttempslice = firstslice
-
 			for k := ourNumber5; k < len(os.Args[1]); k++ {
-				firstsecondinput = (asciiart.AsciiArt(letters[k]))
-
-				for j, line := range firstsecondinput {
+				secondinput = (asciiart.AsciiArt(letters[k]))
+				for j, line := range secondinput {
 					tempmap[j] = append(tempmap[j], line)
 				}
-				firstsecondslice = append(firstsecondslice, firstsecondinput...)
 			}
-			firsttempslice = append(firsttempslice, firstsecondslice...)
-
-			// s := printresult(firsttempslice, ourNumber5)
-			// printcolor(s, colormap[clr[1]])
-			// fmt.Println(red(printresult(firstslice, ourNumber5)) + printresult(firstsecondslice, (len(os.Args[1])-ourNumber5)))
-
-			// fmt.Print(printresult(firsttempslice, (len(os.Args[1]) - ourNumber5)))
-
+			for y := 0; y < ourNumber5; y++ {
+				if letters[y] == " " {
+					spacecounter++
+				}
+			}
+			ourNumber5 += spacecounter
 			for k := 0; k < 8; k++ {
 				for m := 0; m < ourNumber5; m++ {
 					printcolor(tempmap[k][m], colormap[clr[1]])
 					// fmt.Print(tempmap[k][m])
 				}
-				for j := ourNumber5; j < (len(os.Args) - 1); j++ {
+				for j := ourNumber5; j < (len(os.Args[1])); j++ {
 					fmt.Print(tempmap[k][j])
 				}
 
 				fmt.Println()
 			}
+
 		} else if os.Args[4] == "last" {
+
 			for i := 0; i < (leninput - ourNumber5); i++ {
-				asciiart.AsciiArt(letters[i])
+				firstinput = (asciiart.AsciiArt(letters[i]))
+				for j, line := range firstinput {
+					tempmap[j] = append(tempmap[j], line)
+				}
 			}
 			for k := (leninput - ourNumber5); k < len(os.Args[1]); k++ {
-				asciiart.AsciiArt(letters[k])
+				secondinput = (asciiart.AsciiArt(letters[k]))
+				for j, line := range secondinput {
+					tempmap[j] = append(tempmap[j], line)
+				}
 			}
+			for y := (leninput - ourNumber5); y < len(os.Args[1]); y++ {
+				if letters[y] == " " {
+					spacecounter++
+				}
+			}
+			ourNumber5 += spacecounter
+			for k := 0; k < 8; k++ {
+				for m := 0; m < (leninput - ourNumber5); m++ {
+					fmt.Print(tempmap[k][m])
+					// fmt.Print(tempmap[k][m])
+				}
+				for j := (leninput - ourNumber5); j < (len(os.Args[1])); j++ {
+					printcolor(tempmap[k][j], colormap[clr[1]])
+				}
+
+				fmt.Println()
+			}
+		} else if os.Args[4] == "word" {
+			var firstinp string
+			var secondinp string
+			sliceinput := strings.Split(os.Args[1], " ")
+			for i := 0; i < (ourNumber5 - 1); i++ {
+				firstinp += sliceinput[i] + " "
+			}
+			colorword := sliceinput[ourNumber5-1] + " "
+			_ = colorword
+			for t := ourNumber5; t < len(sliceinput); t++ {
+				secondinp += sliceinput[t] + " "
+			}
+			
+
+			for i := 0; i < (len(os.Args[1])); i++ {
+				firstinput = (asciiart.AsciiArt(letters[i]))
+				for j, line := range firstinput {
+					tempmap[j] = append(tempmap[j], line)
+				}
+			}
+			
+			
+			
+			for k := 0; k < 8; k++ {
+				for m := 0; m < len(firstinp); m++ {
+					 fmt.Print(tempmap[k][m])
+					// fmt.Print(tempmap[k][m])
+				}
+				for j := len(firstinp); j < (len(os.Args[1]) - len(secondinp)); j++ {
+					printcolor(tempmap[k][j], colormap[clr[1]])
+				}
+				for p := (len(os.Args[1]) - len(secondinp)); p < len(os.Args[1]); p++ {
+					fmt.Print(tempmap[k][p])
+				}
+
+				fmt.Println()
+			}
+
 		}
+
 	} else if len(os.Args) == 7 {
 		letters := strings.Split(os.Args[1], "")
 		ourNumber4, err := strconv.Atoi(os.Args[4])
@@ -148,48 +193,118 @@ func main() {
 				asciiart.AsciiArt(os.Args[1])
 			} else {
 				for i := 0; i < (ourNumber4 - 1); i++ {
-					asciiart.AsciiArt(letters[i])
+					firstinput = (asciiart.AsciiArt(letters[i]))
+					for j, line := range firstinput {
+						tempmap[j] = append(tempmap[j], line)
+					}
 				}
+
 				for k := ourNumber4 - 1; k < ourNumber6; k++ {
-					asciiart.AsciiArt(letters[k])
-					if letters[k] == " " {
+					secondinput = (asciiart.AsciiArt(letters[k]))
+					for j, line := range secondinput {
+						tempmap[j] = append(tempmap[j], line)
+					}
+				}
+
+				for m := ourNumber6; m < (len(os.Args[1])); m++ {
+					thirdinput = (asciiart.AsciiArt(letters[m]))
+					for j, line := range thirdinput {
+						tempmap[j] = append(tempmap[j], line)
+					}
+				}
+				for y := ourNumber4 - 1; y <= ourNumber6+1; y++ {
+					if letters[y] == " " {
 						spacecounter++
 					}
+				}
+				ourNumber6 += spacecounter
+				for k := 0; k < 8; k++ {
+					for m := 0; m < ourNumber4-1; m++ {
+						fmt.Print(tempmap[k][m])
+						// fmt.Print(tempmap[k][m])
+					}
+					for j := ourNumber4 - 1; j < (ourNumber6); j++ {
+						printcolor(tempmap[k][j], colormap[clr[1]])
+					}
+					for p := ourNumber6; p < len(os.Args[1]); p++ {
+						fmt.Print(tempmap[k][p])
+					}
 
+					fmt.Println()
 				}
-				if spacecounter > 0 {
-					for i := 0; i < spacecounter; i++ {
-						asciiart.AsciiArt(letters[ourNumber6+i])
-					}
-					if spacecounter > 0 {
-						for m := ourNumber6 + spacecounter; m < (len(os.Args[1])); m++ {
-							asciiart.AsciiArt(letters[m])
-						}
-					}
-				} else {
-					for m := ourNumber6; m < (len(os.Args[1])); m++ {
-						asciiart.AsciiArt(letters[m])
-					}
-				}
+
 			}
 		} else if os.Args[5] == "and" {
-			if ourNumber6 == lengthwithoutspace(os.Args[1]) && ourNumber4 == 1 {
-				asciiart.AsciiArt(os.Args[1])
-			} else {
-				for i := 0; i < (ourNumber4 - 1); i++ {
-					asciiart.AsciiArt(letters[i])
-				}
-				asciiart.AsciiArt(letters[ourNumber4-1])
-
-				for m := ourNumber4; m < ourNumber6-1; m++ {
-					asciiart.AsciiArt(letters[m])
-				}
-				asciiart.AsciiArt(letters[ourNumber6-1])
-				for k := ourNumber6; k < len(os.Args[1]); k++ {
-					asciiart.AsciiArt(letters[k])
+			if ourNumber4 > ourNumber6 {
+				ourNumber4, ourNumber6 = ourNumber6, ourNumber4
+			}
+			for i := 0; i < (len(os.Args[1])); i++ {
+				firstinput = (asciiart.AsciiArt(letters[i]))
+				for j, line := range firstinput {
+					tempmap[j] = append(tempmap[j], line)
 				}
 			}
+
+			for q := 0; q < ourNumber4; q++ {
+				if letters[q] == " " {
+					spacecounter++
+				}
+			}
+
+			if spacecounter > 0 {
+				if letters[ourNumber4] == " " {
+					spacecounter++
+				}
+			}
+
+			ourNumber4 += spacecounter
+
+			if spacecounter > 0 {
+				if letters[ourNumber4-1] == " " {
+					spacecounter++
+					thirdcounter++
+				}
+			}
+			ourNumber4 += thirdcounter
+
+			for u := ourNumber4; u <= ourNumber6+spacecounter-1; u++ {
+				if letters[u] == " " {
+					secondcounter++
+				}
+			}
+			if secondcounter > 0 {
+				if letters[ourNumber6] == " " {
+					secondcounter++
+				}
+			}
+
+			ourNumber6 += spacecounter + secondcounter
+			if secondcounter > 0 {
+				if letters[ourNumber6-1] == " " {
+					thirdcounter++
+				}
+				ourNumber6 += thirdcounter
+			}
+
+			for k := 0; k < 8; k++ {
+				for m := 0; m < ourNumber4-1; m++ {
+					fmt.Print(tempmap[k][m])
+				}
+
+				printcolor(tempmap[k][ourNumber4-1], colormap[clr[1]])
+
+				for p := ourNumber4; p < ourNumber6-1; p++ {
+					fmt.Print(tempmap[k][p])
+				}
+				printcolor(tempmap[k][ourNumber6-1], colormap[clr[1]])
+				for i := ourNumber6; i < len(os.Args[1]); i++ {
+					fmt.Print(tempmap[k][i])
+				}
+				fmt.Println()
+			}
+
 		}
+
 	} else if len(os.Args) == 5 {
 		letters := strings.Split(os.Args[1], "")
 		ourNumber, err := strconv.Atoi(os.Args[4])
@@ -197,66 +312,41 @@ func main() {
 			fmt.Println(err)
 			os.Exit(2)
 		}
-		for i := 0; i < (ourNumber - 1); i++ {
-			asciiart.AsciiArt(letters[i])
+		for i := 0; i < (len(os.Args[1])); i++ {
+			firstinput = (asciiart.AsciiArt(letters[i]))
+			for j, line := range firstinput {
+				tempmap[j] = append(tempmap[j], line)
+			}
 		}
-		asciiart.AsciiArt(letters[ourNumber-1])
-		for m := ourNumber; m < len(os.Args); m++ {
-			asciiart.AsciiArt(letters[m])
+		for q := 0; q < ourNumber; q++ {
+			if letters[q] == " " {
+				spacecounter++
+			}
 		}
+		if spacecounter > 0 {
+			if letters[ourNumber] == " " {
+				spacecounter++
+			}
+		}
+		ourNumber += spacecounter
+		if spacecounter > 0 {
+			if letters[ourNumber-1] == " " {
+				secondcounter++
+			}
+		}
+		ourNumber += secondcounter
+		for k := 0; k < 8; k++ {
+			for m := 0; m < ourNumber-1; m++ {
+				fmt.Print(tempmap[k][m])
+			}
+
+			printcolor(tempmap[k][ourNumber-1], colormap[clr[1]])
+
+			for i := ourNumber; i < len(os.Args[1]); i++ {
+				fmt.Print(tempmap[k][i])
+			}
+			fmt.Println()
+		}
+
 	}
-}
-
-func printresult(a []string, counter int) string {
-	str := ""
-	str2 := ""
-	str3 := ""
-	str4 := ""
-	str5 := ""
-	str6 := ""
-	str7 := ""
-	str8 := ""
-	for j := 0; j <= ((counter * 8) - 1); j += 8 {
-		str += a[j]
-	}
-
-	for j := 1; j <= ((counter * 8) - 1); j += 8 {
-		str2 += a[j]
-	}
-
-	for j := 2; j <= ((counter * 8) - 1); j += 8 {
-		str3 += a[j]
-	}
-
-	for j := 3; j <= ((counter * 8) - 1); j += 8 {
-		str4 += a[j]
-	}
-
-	for j := 4; j <= ((counter * 8) - 1); j += 8 {
-		str5 += a[j]
-	}
-
-	for j := 5; j <= ((counter * 8) - 1); j += 8 {
-		str6 += a[j]
-	}
-
-	for j := 6; j <= ((counter * 8) - 1); j += 8 {
-		str7 += a[j]
-	}
-
-	for j := 7; j <= ((counter * 8) - 1); j += 8 {
-		str8 += a[j]
-	}
-
-	allstr := (str + "\n" + str2 + "\n" + str3 + "\n" + str4 + "\n" + str5 + "\n" + str6 + "\n" + str7 + "\n" + str8 + "\n")
-
-	return allstr
-}
-
-func Color(colorString string) func(...interface{}) string {
-	sprint := func(args ...interface{}) string {
-		return fmt.Sprintf(colorString,
-			fmt.Sprint(args...))
-	}
-	return sprint
 }
