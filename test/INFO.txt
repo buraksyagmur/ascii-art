@@ -1,0 +1,9 @@
+Wrong Command!!!
+Examples:
+go run . string bannertype --color=(specifiedcolor) 
+go run . string bannertype --color=(specifiedcolor) int 
+go run . string bannertype --color=(specifiedcolor) first int
+go run . string bannertype --color=(specifiedcolor) last int
+go run . string bannertype --color=(specifiedcolor) word int 
+go run . string bannertype --color=(specifiedcolor) int - int
+go run . string bannertype --color=(specifiedcolor) int and int
