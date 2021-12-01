@@ -64,6 +64,7 @@ var (
 	secondinput []string
 	thirdinput  []string
 	clr         []string
+	colornumber int
 
 	// s   = SelectedColor(clr[1])
 )
@@ -85,6 +86,7 @@ func main() {
 				secondcounter := 0
 				thirdcounter := 0
 				clr = strings.Split(os.Args[3], "=")
+
 				if clr[1] != "red" && clr[1] != "black" && clr[1] != "blue" && clr[1] != "green" && clr[1] != "yellow" && clr[1] != "pink" && clr[1] != "purple" && clr[1] != "turqoise" && clr[1] != "orange" && clr[1] != "white" {
 					clr[1] = "white"
 				}
@@ -141,7 +143,11 @@ func main() {
 									// fmt.Print(tempmap[k][m])
 								}
 								for j := ourNumber5; j < (len(os.Args[1])); j++ {
-									fmt.Print(tempmap[k][j])
+									if len(clr) == 2 {
+										fmt.Print(tempmap[k][j])
+									} else {
+										printcolor(tempmap[k][j], colormap[clr[2]])
+									}
 								}
 
 								fmt.Println()
@@ -173,8 +179,12 @@ func main() {
 							ourNumber5 += spacecounter
 							for k := 0; k < 8; k++ {
 								for m := 0; m < (leninput - ourNumber5); m++ {
-									fmt.Print(tempmap[k][m])
-									// fmt.Print(tempmap[k][m])
+									if len(clr) == 2 {
+										fmt.Print(tempmap[k][m])
+										// fmt.Print(tempmap[k][m])
+									} else {
+										printcolor(tempmap[k][m], colormap[clr[2]])
+									}
 								}
 								for j := (leninput - ourNumber5); j < (len(os.Args[1])); j++ {
 									printcolor(tempmap[k][j], colormap[clr[1]])
@@ -209,16 +219,22 @@ func main() {
 
 							for k := 0; k < 8; k++ {
 								for m := 0; m < len(firstinp); m++ {
-									fmt.Print(tempmap[k][m])
-									// fmt.Print(tempmap[k][m])
+									if len(clr) == 2 {
+										fmt.Print(tempmap[k][m])
+									} else {
+										printcolor(tempmap[k][m], colormap[clr[2]])
+									}
 								}
 								for j := len(firstinp); j < (len(os.Args[1]) - len(secondinp)); j++ {
 									printcolor(tempmap[k][j], colormap[clr[1]])
 								}
 								for p := (len(os.Args[1]) - len(secondinp)); p < len(os.Args[1]); p++ {
-									fmt.Print(tempmap[k][p])
+									if len(clr) == 2 {
+										fmt.Print(tempmap[k][p])
+									} else {
+										printcolor(tempmap[k][p], colormap[clr[2]])
+									}
 								}
-
 								fmt.Println()
 							}
 						}
@@ -286,14 +302,21 @@ func main() {
 							ourNumber6 += spacecounter
 							for k := 0; k < 8; k++ {
 								for m := 0; m < ourNumber4-1; m++ {
-									fmt.Print(tempmap[k][m])
-									// fmt.Print(tempmap[k][m])
+									if len(clr) == 2 {
+										fmt.Print(tempmap[k][m])
+									} else {
+										printcolor(tempmap[k][m], colormap[clr[2]])
+									}
 								}
 								for j := ourNumber4 - 1; j < (ourNumber6); j++ {
 									printcolor(tempmap[k][j], colormap[clr[1]])
 								}
 								for p := ourNumber6; p < len(os.Args[1]); p++ {
-									fmt.Print(tempmap[k][p])
+									if len(clr) == 2 {
+										fmt.Print(tempmap[k][p])
+									} else {
+										printcolor(tempmap[k][p], colormap[clr[2]])
+									}
 								}
 
 								fmt.Println()
@@ -357,17 +380,29 @@ func main() {
 
 							for k := 0; k < 8; k++ {
 								for m := 0; m < ourNumber4-1; m++ {
-									fmt.Print(tempmap[k][m])
+									if len(clr) == 2 {
+										fmt.Print(tempmap[k][m])
+									} else {
+										printcolor(tempmap[k][m], colormap[clr[2]])
+									}
 								}
 
 								printcolor(tempmap[k][ourNumber4-1], colormap[clr[1]])
 
 								for p := ourNumber4; p < ourNumber6-1; p++ {
-									fmt.Print(tempmap[k][p])
+									if len(clr) == 2 {
+										fmt.Print(tempmap[k][p])
+									} else {
+										printcolor(tempmap[k][p], colormap[clr[2]])
+									}
 								}
 								printcolor(tempmap[k][ourNumber6-1], colormap[clr[1]])
 								for i := ourNumber6; i < len(os.Args[1]); i++ {
-									fmt.Print(tempmap[k][i])
+									if len(clr) == 2 {
+										fmt.Print(tempmap[k][i])
+									} else {
+										printcolor(tempmap[k][i], colormap[clr[2]])
+									}
 								}
 								fmt.Println()
 							}
@@ -413,13 +448,21 @@ func main() {
 						ourNumber += secondcounter
 						for k := 0; k < 8; k++ {
 							for m := 0; m < ourNumber-1; m++ {
-								fmt.Print(tempmap[k][m])
+								if len(clr) == 2 {
+									fmt.Print(tempmap[k][m])
+								} else {
+									printcolor(tempmap[k][m], colormap[clr[2]])
+								}
 							}
 
 							printcolor(tempmap[k][ourNumber-1], colormap[clr[1]])
 
 							for i := ourNumber; i < len(os.Args[1]); i++ {
-								fmt.Print(tempmap[k][i])
+								if len(clr) == 2 {
+									fmt.Print(tempmap[k][i])
+								} else {
+									printcolor(tempmap[k][i], colormap[clr[2]])
+								}
 							}
 							fmt.Println()
 						}
@@ -434,11 +477,5 @@ func main() {
 		}
 	} else {
 		readfile()
-	}
-}
-
-func checkErr(e error) {
-	if e != nil {
-		log.Fatal(e)
 	}
 }
