@@ -1,6 +1,6 @@
 Wrong Command!!!
 Examples:
-go run . string bannertype --color=(color1)=(color2)
+go run . string bannertype --color=(color1)
 go run . string bannertype --color=(color1)=(color2) int 
 go run . string bannertype --color=(color1)=(color2) first int
 go run . string bannertype --color=(color1)=(color2) last int
